@@ -6,7 +6,8 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 
 public class TestMain {
-private static EntityManagerFactory ENTITY_MANAGER_FACTORY=Persistence.createEntityManagerFactory("EventTicket");
+
+private static	EntityManagerFactory ENTITY_MANAGER_FACTORY = Persistence.createEntityManagerFactory("EventTicket");
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		ENTITY_MANAGER_FACTORY.close();

@@ -2,9 +2,11 @@ package com.EventTicket.EventTicket;
 
 import java.sql.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -26,7 +28,8 @@ private String status;
 private String location;
 @Column(name="EventDate")
 private Date date;
-@Column(name="EventType")
-@OneToOne
+
+@OneToOne(cascade = CascadeType.ALL)
+@JoinColumn(name = "idEventType")
 private EventType type;
 }

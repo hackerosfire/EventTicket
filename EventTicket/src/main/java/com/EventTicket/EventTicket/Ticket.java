@@ -1,7 +1,9 @@
 package com.EventTicket.EventTicket;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 @Entity
@@ -16,11 +18,11 @@ private String fName;
 private String lName;
 @Column(name="TICKETegn")
 private int EGN;
-@Column(name="TICKETdistributor")
-@OneToOne
+@OneToOne(cascade = CascadeType.ALL)
+@JoinColumn(name = "idDistributor")
 private Distributor distributorID;
-@Column(name="TICKETevent")
-@OneToOne
+@OneToOne(cascade = CascadeType.ALL)
+@JoinColumn(name = "idEvent")
 private Event eventID;
 public int getId() {
 	return id;
