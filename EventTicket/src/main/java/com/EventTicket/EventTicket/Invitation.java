@@ -23,4 +23,34 @@ private Distributor distributorID;
 private Event eventID;
 @Column(name="invitationstatus")
 private int status;
+public int getId() {
+	return id;
+}
+public void setId(int id) {
+	this.id = id;
+}
+public Organisator getOrganisatorID() {
+	return organisatorID;
+}
+public void setOrganisatorID(Organisator organisatorID) {
+	this.organisatorID = organisatorID;
+}
+public Distributor getDistributorID() {
+	return distributorID;
+}
+public void setDistributorID(Distributor distributorID) {
+	this.distributorID = distributorID;
+}
+public Event getEventID() {
+	return eventID;
+}
+public void setEventID(Event eventID) {
+	this.eventID = eventID;
+}
+public int getStatus() {
+	return status;
+}
+public void setStatus(int status) {
+	this.status = status;
+}
 }
