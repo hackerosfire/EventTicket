@@ -74,19 +74,38 @@ public class login extends JFrame {
 			@SuppressWarnings("static-access")
 			public void actionPerformed(ActionEvent e) {
 				TestMain obj = new TestMain();
+				
 				if(String.valueOf(comboBox.getSelectedItem())=="admin") {
-					if(obj.getAdmin(33).getUsername() == String.valueOf(formattedTextField.getText()))
+					Admin a = obj.getAdminByName(String.valueOf(formattedTextField.getText()));
+					if(a.getUsername().equals(String.valueOf(formattedTextField.getText())))
 					{
-						if(obj.getAdmin(33).getPassword() == String.valueOf(passwordField.getPassword())) {
-						dispose();
+						if(a.getPassword().equals(String.valueOf(passwordField.getPassword()))) {
+							System.out.println("login successful");
+							dispose();
 						}
 					}
 				}
 				else if(String.valueOf(comboBox.getSelectedItem())=="organisator") {
+					Organisator o = obj.getOrganisatorByName(String.valueOf(formattedTextField.getText()));
+					if(o.getUsername().equals(String.valueOf(formattedTextField.getText())))
+					{
+						if(o.getPassword().equals(String.valueOf(passwordField.getPassword()))) {
+							System.out.println("login successful");
+							dispose();
+							
+						}
+					}
 					
 				}
 				else if(String.valueOf(comboBox.getSelectedItem())=="distributor") {
-					
+					Distributor d = obj.getDistributorByName(String.valueOf(formattedTextField.getText()));
+					if(d.getUsername().equals(String.valueOf(formattedTextField.getText())))
+					{
+						if(d.getPassword().equals(String.valueOf(passwordField.getPassword()))) {
+							System.out.println("login successful");
+							dispose();
+						}
+					}
 				}
 				
 			}

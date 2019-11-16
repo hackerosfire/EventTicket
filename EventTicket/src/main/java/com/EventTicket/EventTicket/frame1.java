@@ -29,7 +29,7 @@ public class frame1 {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
+	public static void frame() {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -55,31 +55,22 @@ public class frame1 {
 	private void initialize() {
 		frmEt = new JFrame();
 		frmEt.setTitle("ET");
-		frmEt.setBounds(100, 100, 850, 350);
+		frmEt.setBounds(100, 100, 210, 148);
 		frmEt.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmEt.getContentPane().setLayout(null);
 		
 		JLabel lblEventTicket = new JLabel("Event Ticket");
-		lblEventTicket.setBounds(10, 11, 59, 14);
+		lblEventTicket.setBounds(66, 16, 59, 14);
 		frmEt.getContentPane().add(lblEventTicket);
 		
 		JButton btnLogin = new JButton("Login");
-		btnLogin.setBounds(735, 11, 89, 23);
+		btnLogin.setBounds(52, 41, 89, 23);
 		frmEt.getContentPane().add(btnLogin);
-		
-		JButton btnOptions = new JButton("Options");
-		btnOptions.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-			}
-		});
-		btnOptions.setBounds(735, 48, 89, 23);
-		frmEt.getContentPane().add(btnOptions);
 		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				login log = new login();
 				log.loginFrame();
-				
+				frmEt.dispose();
 			}
 		});
 	}
