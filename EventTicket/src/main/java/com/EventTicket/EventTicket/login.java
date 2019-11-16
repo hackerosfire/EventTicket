@@ -78,7 +78,6 @@ public class login extends JFrame {
 					if(obj.getAdmin(33).getUsername() == String.valueOf(formattedTextField.getText()))
 					{
 						if(obj.getAdmin(33).getPassword() == String.valueOf(passwordField.getPassword())) {
-							
 						dispose();
 						}
 					}

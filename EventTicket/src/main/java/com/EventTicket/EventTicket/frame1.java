@@ -65,7 +65,6 @@ public class frame1 {
 		
 		JButton btnLogin = new JButton("Login");
 		btnLogin.setBounds(735, 11, 89, 23);
-		
 		frmEt.getContentPane().add(btnLogin);
 		
 		JButton btnOptions = new JButton("Options");
