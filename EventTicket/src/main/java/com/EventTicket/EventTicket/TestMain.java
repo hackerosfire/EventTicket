@@ -123,9 +123,9 @@ private static	EntityManagerFactory ENTITY_MANAGER_FACTORY = Persistence.createE
 		catch(NoResultException ex) {
 			ex.printStackTrace();
 		}
-		//finally {
-			//em.close();
-		//}
+		finally {
+			em.close();
+		}
 		return adm;
 	}
 	public static void getAdmins()
