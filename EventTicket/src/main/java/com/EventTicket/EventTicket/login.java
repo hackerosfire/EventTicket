@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JFormattedTextField;
 import javax.swing.JPasswordField;
 import javax.swing.DefaultComboBoxModel;
@@ -81,7 +82,15 @@ public class login extends JFrame {
 					{
 						if(a.getPassword().equals(String.valueOf(passwordField.getPassword()))) {
 							System.out.println("login successful");
+							AdminFrame admFrm = new AdminFrame();
+							admFrm.adminFrame();
 							dispose();
+						}
+						else
+						{
+							dispose();
+							frame1 mainframe = new frame1();
+							mainframe.frame();
 						}
 					}
 				}
@@ -91,8 +100,14 @@ public class login extends JFrame {
 					{
 						if(o.getPassword().equals(String.valueOf(passwordField.getPassword()))) {
 							System.out.println("login successful");
-							dispose();
 							
+							dispose();
+						}
+						else
+						{
+							dispose();
+							frame1 mainframe = new frame1();
+							mainframe.frame();
 						}
 					}
 					
@@ -105,9 +120,15 @@ public class login extends JFrame {
 							System.out.println("login successful");
 							dispose();
 						}
+						else
+						{
+							dispose();
+							//JOptionPane.showMessageDialog(null, "Wrong information", "InfoBox: " + "Error", JOptionPane.INFORMATION_MESSAGE);
+							frame1 mainframe = new frame1();
+							mainframe.frame();
+						}
 					}
 				}
-				
 			}
 		});
 		btnLogin.setBounds(149, 145, 89, 23);

@@ -23,7 +23,7 @@ private static	EntityManagerFactory ENTITY_MANAGER_FACTORY = Persistence.createE
 		mainframe.frame();
 
 	}
-	public static void addAdmin(int id,String username,String password)
+	public static void addAdmin(String username,String password)
 	{
 		EntityManager em=ENTITY_MANAGER_FACTORY.createEntityManager();
 		EntityTransaction et=null;
@@ -32,7 +32,7 @@ private static	EntityManagerFactory ENTITY_MANAGER_FACTORY = Persistence.createE
 			et=em.getTransaction();
 			et.begin();
 			Admin admin=new Admin();
-			admin.setId(id);
+			//admin.setId(id);
 			admin.setPassword(password);
 			admin.setUsername(username);
 			em.persist(admin);
@@ -53,7 +53,7 @@ private static	EntityManagerFactory ENTITY_MANAGER_FACTORY = Persistence.createE
 		}
 	}
 	
-	public static void addOrganisator(int id,String username,String password)
+	public static void addOrganisator(String username,String password)
 	{
 		EntityManager em=ENTITY_MANAGER_FACTORY.createEntityManager();
 		EntityTransaction et=null;
@@ -62,7 +62,7 @@ private static	EntityManagerFactory ENTITY_MANAGER_FACTORY = Persistence.createE
 			et=em.getTransaction();
 			et.begin();
 			Organisator o=new Organisator();
-			o.setOrganisatorid(id);
+			//o.setOrganisatorid(id);
 			o.setPassword(password);
 			o.setUsername(username);
 			em.persist(o);
@@ -83,7 +83,7 @@ private static	EntityManagerFactory ENTITY_MANAGER_FACTORY = Persistence.createE
 		}
 	}
 	
-	public static void addDistributor(int id,String username,String password)
+	public static void addDistributor(String username,String password)
 	{
 		EntityManager em=ENTITY_MANAGER_FACTORY.createEntityManager();
 		EntityTransaction et=null;
@@ -92,7 +92,7 @@ private static	EntityManagerFactory ENTITY_MANAGER_FACTORY = Persistence.createE
 			et=em.getTransaction();
 			et.begin();
 			Distributor d=new Distributor();
-			d.setId(id);
+			//d.setId(id);
 			d.setPassword(password);
 			d.setUsername(username);
 			d.setRating(0);
@@ -157,9 +157,8 @@ private static	EntityManagerFactory ENTITY_MANAGER_FACTORY = Persistence.createE
 		tq.setParameter("AdminUsername", name);
 		Admin adm = null;
 		try {
-		adm = tq.getSingleResult();
-		return adm;
-		//System.out.println(adm.getUsername());
+			adm = tq.getSingleResult();
+			return adm;
 		}
 		catch(NoResultException ex) {
 			ex.printStackTrace();
@@ -177,9 +176,8 @@ private static	EntityManagerFactory ENTITY_MANAGER_FACTORY = Persistence.createE
 		tq.setParameter("OrganisatorUsername", name);
 		Organisator org= null;
 		try {
-		org = tq.getSingleResult();
-		return org;
-		//System.out.println(adm.getUsername());
+			org = tq.getSingleResult();
+			return org;
 		}
 		catch(NoResultException ex) {
 			ex.printStackTrace();
@@ -197,9 +195,8 @@ private static	EntityManagerFactory ENTITY_MANAGER_FACTORY = Persistence.createE
 		tq.setParameter("DistributorUsername", name);
 		Distributor dis= null;
 		try {
-		dis = tq.getSingleResult();
-		return dis;
-		//System.out.println(adm.getUsername());
+			dis = tq.getSingleResult();
+			return dis;
 		}
 		catch(NoResultException ex) {
 			ex.printStackTrace();
