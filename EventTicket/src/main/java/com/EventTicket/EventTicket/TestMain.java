@@ -21,7 +21,7 @@ private static	EntityManagerFactory ENTITY_MANAGER_FACTORY = Persistence.createE
 		//addOrganisator(1,"org1","parola");
 		frame1 mainframe = new frame1();
 		mainframe.frame();
-		System.out.println(checkAdminByName("test"));
+		//System.out.println(checkAdminByName("test"));
 
 	}
 	public static void addAdmin(String username,String password)
@@ -181,13 +181,61 @@ private static	EntityManagerFactory ENTITY_MANAGER_FACTORY = Persistence.createE
 		try {
 			//adm = tq.getSingleResult();
 			results=tq.getResultList();
-			if(results.get(0)!=null)
+			if(results.isEmpty())
 			{
-				return true;
+				return false;
 			}
 			else
 			{
-			return false;
+			return true;
+			}
+		}
+
+		finally {
+			em.close();
+		}
+	}
+	public static boolean  checkOrganisatorByName(String name)
+	{
+		EntityManager em=ENTITY_MANAGER_FACTORY.createEntityManager();
+		String query = "SELECT organisator FROM Organisator organisator WHERE organisator.username = :OrganisatorUsername";
+		TypedQuery<Organisator> tq = em.createQuery(query, Organisator.class);
+		tq.setParameter("OrganisatorUsername", name);
+		tq.setMaxResults(1);
+		List<Organisator> results;
+		try {
+			results=tq.getResultList();
+			if(results.isEmpty())
+			{
+				return false;
+			}
+			else
+			{
+			return true;
+			}
+		}
+
+		finally {
+			em.close();
+		}
+	}
+	public static boolean  checkDistributorByName(String name)
+	{
+		EntityManager em=ENTITY_MANAGER_FACTORY.createEntityManager();
+		String query = "SELECT distributor FROM Distributor distributor WHERE distributor.username = :DistributorUsername";
+		TypedQuery<Distributor> tq = em.createQuery(query, Distributor.class);
+		tq.setParameter("DistributorUsername", name);
+		tq.setMaxResults(1);
+		List<Distributor> results;
+		try {
+			results=tq.getResultList();
+			if(results.isEmpty())
+			{
+				return false;
+			}
+			else
+			{
+			return true;
 			}
 		}
 

@@ -81,43 +81,42 @@ public class AdminFrame extends JFrame {
 					String accType = String.valueOf(comboBox.getSelectedItem());
 					if(accType=="admin")
 					{
-						TestMain a = new TestMain();
-						if(a.getAdminByName(userName).getUsername().equals(userName) || a.getAdminByName(userName).getUsername().equals(null))//throws exception if username is not in database
+						if(TestMain.checkAdminByName(userName)==true || userName.equals(null))//throws exception if username is not in database
 						{
 							JOptionPane.showMessageDialog(null, "Username already in use", "InfoBox: " + "Error", JOptionPane.INFORMATION_MESSAGE);
 						}
 						else
 						{
-							a.addAdmin(userName, password);
+							System.out.println(userName+ " "+password);
+							TestMain.addAdmin(userName, password);
 							JOptionPane.showMessageDialog(null, "Account Created", "InfoBox: " + "Success", JOptionPane.INFORMATION_MESSAGE);
 						}
 					}
 					if(accType=="organisator")
 					{
-						TestMain o = new TestMain();
-						if(o.getOrganisatorByName(userName).getUsername().equals(userName) || o.getAdminByName(userName).getUsername().equals(null))
+						if(TestMain.checkOrganisatorByName(userName)==true || userName.equals(null))//throws exception if username is not in database
 						{
 							JOptionPane.showMessageDialog(null, "Username already in use", "InfoBox: " + "Error", JOptionPane.INFORMATION_MESSAGE);
 						}
 						else
 						{
-							o.addOrganisator(userName, password);
+							System.out.println(userName+ " "+password);
+							TestMain.addOrganisator(userName, password);
 							JOptionPane.showMessageDialog(null, "Account Created", "InfoBox: " + "Success", JOptionPane.INFORMATION_MESSAGE);
 						}
 					}
 					if(accType=="distributor")
 					{
-						TestMain d = new TestMain();
-						if(d.getDistributorByName(userName).getUsername().equals(userName) || d.getAdminByName(userName).getUsername().equals(null))
+						if(TestMain.checkDistributorByName(userName)==true || userName.equals(null))//throws exception if username is not in database
 						{
 							JOptionPane.showMessageDialog(null, "Username already in use", "InfoBox: " + "Error", JOptionPane.INFORMATION_MESSAGE);
 						}
 						else
 						{
-							d.addDistributor(userName, password);
+							System.out.println(userName+ " "+password);
+							TestMain.addDistributor(userName, password);
 							JOptionPane.showMessageDialog(null, "Account Created", "InfoBox: " + "Success", JOptionPane.INFORMATION_MESSAGE);
 						}
-						
 					}
 				}
 			});
