@@ -21,6 +21,7 @@ private static	EntityManagerFactory ENTITY_MANAGER_FACTORY = Persistence.createE
 		//addOrganisator(1,"org1","parola");
 		frame1 mainframe = new frame1();
 		mainframe.frame();
+		System.out.println(checkAdminByName("test"));
 
 	}
 	public static void addAdmin(String username,String password)
@@ -155,15 +156,41 @@ private static	EntityManagerFactory ENTITY_MANAGER_FACTORY = Persistence.createE
 		String query = "SELECT admin FROM Admin admin WHERE admin.username = :AdminUsername";
 		TypedQuery<Admin> tq = em.createQuery(query, Admin.class);
 		tq.setParameter("AdminUsername", name);
+		tq.setMaxResults(1);
+		List<Admin> results;
 		Admin adm = null;
 		try {
-			adm = tq.getSingleResult();
-			return adm;
+			//adm = tq.getSingleResult();
+			results=tq.getResultList();
+			return results.get(0);
 		}
-		catch(NoResultException ex) {
-			ex.printStackTrace();
-			return null;
+
+		finally {
+			em.close();
 		}
+	}
+	public static boolean  checkAdminByName(String name)
+	{
+		EntityManager em=ENTITY_MANAGER_FACTORY.createEntityManager();
+		String query = "SELECT admin FROM Admin admin WHERE admin.username = :AdminUsername";
+		TypedQuery<Admin> tq = em.createQuery(query, Admin.class);
+		tq.setParameter("AdminUsername", name);
+		tq.setMaxResults(1);
+		List<Admin> results;
+		Admin adm = null;
+		try {
+			//adm = tq.getSingleResult();
+			results=tq.getResultList();
+			if(results.get(0)!=null)
+			{
+				return true;
+			}
+			else
+			{
+			return false;
+			}
+		}
+
 		finally {
 			em.close();
 		}
