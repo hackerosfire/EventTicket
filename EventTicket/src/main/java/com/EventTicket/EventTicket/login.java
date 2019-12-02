@@ -100,7 +100,8 @@ public class login extends JFrame {
 					{
 						if(o.getPassword().equals(String.valueOf(passwordField.getPassword()))) {
 							System.out.println("login successful");
-							
+							OrgFrame orgFrm = new OrgFrame();
+							orgFrm.orgFrame();
 							dispose();
 						}
 						else

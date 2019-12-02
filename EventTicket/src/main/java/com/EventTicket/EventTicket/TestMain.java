@@ -1,5 +1,6 @@
 package com.EventTicket.EventTicket;
 
+import java.sql.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -114,6 +115,38 @@ private static	EntityManagerFactory ENTITY_MANAGER_FACTORY = Persistence.createE
 			
 		}
 	}
+	public static void addEvent(String name, String location, int capacity, int tpp, double price, Date date)
+	{
+		EntityManager em=ENTITY_MANAGER_FACTORY.createEntityManager();
+		EntityTransaction et=null;
+		try
+		{
+			et=em.getTransaction();
+			et.begin();
+			Event e=new Event();
+			e.setName(name);
+			e.setLocation(location);
+			e.setCapacity(capacity);
+			e.setPerPerson(tpp);
+			e.setPrice(price);
+			e.setDate(date);
+			em.persist(e);
+			et.commit();
+		}
+		catch(Exception ex)
+		{
+			if(et!=null)
+			{
+				et.rollback();
+			}
+			ex.printStackTrace();
+		}
+		finally
+		{
+			em.close();
+			
+		}
+	}
 	public static Admin getAdmin(int id)
 	{
 		EntityManager em=ENTITY_MANAGER_FACTORY.createEntityManager();
@@ -177,7 +210,7 @@ private static	EntityManagerFactory ENTITY_MANAGER_FACTORY = Persistence.createE
 		tq.setParameter("AdminUsername", name);
 		tq.setMaxResults(1);
 		List<Admin> results;
-		Admin adm = null;
+		//Admin adm = null;
 		try {
 			//adm = tq.getSingleResult();
 			results=tq.getResultList();
