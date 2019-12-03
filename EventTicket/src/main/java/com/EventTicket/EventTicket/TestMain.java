@@ -115,10 +115,12 @@ private static	EntityManagerFactory ENTITY_MANAGER_FACTORY = Persistence.createE
 			
 		}
 	}
-	public static void addEvent(String name, String location, int capacity, int tpp, double price, Date date)
+	public static void addEvent(String name, String location, int capacity, int tpp, double price, Date string)
 	{
 		EntityManager em=ENTITY_MANAGER_FACTORY.createEntityManager();
 		EntityTransaction et=null;
+		EventType etype = new EventType();
+		etype.setType("concert");
 		try
 		{
 			et=em.getTransaction();
@@ -129,8 +131,10 @@ private static	EntityManagerFactory ENTITY_MANAGER_FACTORY = Persistence.createE
 			e.setCapacity(capacity);
 			e.setPerPerson(tpp);
 			e.setPrice(price);
-			e.setDate(date);
+			e.setDate(string);
+
 			em.persist(e);
+			e.setType(etype);
 			et.commit();
 		}
 		catch(Exception ex)

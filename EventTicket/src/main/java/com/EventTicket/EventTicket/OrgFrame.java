@@ -8,7 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
-import java.sql.Date;
+import java.util.Date;
 import java.awt.event.ActionEvent;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
@@ -115,7 +115,7 @@ public class OrgFrame extends JFrame {
 		contentPane.add(lblDate);
 		
 		JDateChooser dateChooser = new JDateChooser();
-		dateChooser.setDateFormatString("YYYY/MM/d");
+		dateChooser.setDateFormatString("YYYY/M/d");
 		dateChooser.setBounds(128, 183, 91, 20);
 		contentPane.add(dateChooser);
 		addEvent.addActionListener(new ActionListener() {
@@ -123,15 +123,19 @@ public class OrgFrame extends JFrame {
 				String evName, location;
 				double ticketPrice;
 				int tpp,capacity;
-				Date evDate;
+				//Date evDate=new Date(dateChooser.getDate().toString());
+				java.util.Date datee = (java.util.Date) dateChooser.getDate();
+				java.sql.Date sqlDate = new java.sql.Date(datee.getTime());
+				sqlDate.setMonth(datee.getMonth());
+				sqlDate.setDate(datee.getDay());
+				sqlDate.setYear(datee.getYear());
 				evName = String.valueOf(textName.getText());
 				location = String.valueOf(textLocation.getText());
 				capacity = Integer.valueOf(textCapacity.getText());
 				tpp = Integer.valueOf(textTPP.getText());
 				ticketPrice = Double.valueOf(textPrice.getText());
-				dateChooser.getDate().toString();
-				System.out.println(dateChooser.getDate().toString());
-				TestMain.addEvent(evName, location, capacity, tpp, ticketPrice, (Date) dateChooser.getDate());
+				//System.out.println(evDate.getDate());
+				TestMain.addEvent(evName, location, capacity, tpp, ticketPrice,sqlDate);
 			}
 		});
 	}

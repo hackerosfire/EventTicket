@@ -1,6 +1,6 @@
 package com.EventTicket.EventTicket;
 
-import java.sql.Date;
+import java.util.Date;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -28,13 +29,13 @@ public class Event {
 	@Column(name="EventLocation")
 	private String location;
 	@Column(name="EventDate")
-	private Date date;
+	private java.sql.Date date;
 	@Column(name="EventName")
 	private String name;
 	
 	
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "idEventType")
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "EventType",referencedColumnName = "idEventType")
 	private EventType type;
 	
 	public int getId() {
@@ -77,12 +78,12 @@ public class Event {
 		this.location = location;
 	}
 	
-	public Date getDate() {
+	public java.sql.Date getDate() {
 		return date;
 	}
 	
-	public void setDate(Date date) {
-		this.date = date;
+	public void setDate(java.sql.Date string) {
+		this.date = string;
 	}
 	
 	public EventType getType() {
