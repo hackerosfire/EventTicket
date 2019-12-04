@@ -1,6 +1,7 @@
 package com.EventTicket.EventTicket;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -115,7 +116,7 @@ private static	EntityManagerFactory ENTITY_MANAGER_FACTORY = Persistence.createE
 			
 		}
 	}
-	public static void addEvent(String name, String location, int capacity, int tpp, double price, Date string)
+	public static void addEvent(String name, String location, int capacity, int tpp, double price, Date string, int idOrg)
 	{
 		EntityManager em=ENTITY_MANAGER_FACTORY.createEntityManager();
 		EntityTransaction et=null;
@@ -132,7 +133,44 @@ private static	EntityManagerFactory ENTITY_MANAGER_FACTORY = Persistence.createE
 			e.setPerPerson(tpp);
 			e.setPrice(price);
 			e.setDate(string);
+			e.setOrgId(em.getReference(Organisator.class, idOrg));
 
+			em.persist(e);
+			e.setType(etype);
+			et.commit();
+		}
+		catch(Exception ex)
+		{
+			if(et!=null)
+			{
+				et.rollback();
+			}
+			ex.printStackTrace();
+		}
+		finally
+		{
+			em.close();
+			
+		}
+	}
+	public static void EditEvent(int id, String name, String location, int capacity, int tpp, double price, Date string)
+	{
+		EntityManager em=ENTITY_MANAGER_FACTORY.createEntityManager();
+		EntityTransaction et=null;
+		EventType etype = new EventType();
+		etype.setType("concert");
+		Event e= null;
+		try
+		{
+			et=em.getTransaction();
+			et.begin();
+			e = em.find(Event.class, id);
+			e.setName(name);
+			e.setLocation(location);
+			e.setCapacity(capacity);
+			e.setPerPerson(tpp);
+			e.setPrice(price);
+			e.setDate(string);
 			em.persist(e);
 			e.setType(etype);
 			et.commit();
@@ -194,12 +232,10 @@ private static	EntityManagerFactory ENTITY_MANAGER_FACTORY = Persistence.createE
 		TypedQuery<Admin> tq = em.createQuery(query, Admin.class);
 		tq.setParameter("AdminUsername", name);
 		tq.setMaxResults(1);
-		List<Admin> results;
 		Admin adm = null;
 		try {
-			//adm = tq.getSingleResult();
-			results=tq.getResultList();
-			return results.get(0);
+			adm = tq.getSingleResult();
+			return adm;
 		}
 
 		finally {
@@ -231,6 +267,25 @@ private static	EntityManagerFactory ENTITY_MANAGER_FACTORY = Persistence.createE
 		finally {
 			em.close();
 		}
+	}
+	public static Organisator getOrganisator(int id)
+	{
+		EntityManager em=ENTITY_MANAGER_FACTORY.createEntityManager();
+		String query = "SELECT organisator FROM Organisator organisator WHERE organisator.id = :idOrgsanisator";
+		TypedQuery<Organisator> tq = em.createQuery(query, Organisator.class);
+		tq.setParameter("idOrganisator", id);
+		Organisator org= null;
+		try {
+		org = tq.getSingleResult();
+		//System.out.println(adm.getUsername());
+		}
+		catch(NoResultException ex) {
+			ex.printStackTrace();
+		}
+		finally {
+			em.close();
+		}//
+		return org;
 	}
 	public static boolean  checkOrganisatorByName(String name)
 	{
@@ -299,6 +354,25 @@ private static	EntityManagerFactory ENTITY_MANAGER_FACTORY = Persistence.createE
 			em.close();
 		}
 	}
+	public static Distributor getDistributor(int id)
+	{
+		EntityManager em=ENTITY_MANAGER_FACTORY.createEntityManager();
+		String query = "SELECT distributor FROM Distributor distributor WHERE distributor.id = :idDistributor";
+		TypedQuery<Distributor> tq = em.createQuery(query, Distributor.class);
+		tq.setParameter("idDistributor", id);
+		Distributor dis= null;
+		try {
+		dis = tq.getSingleResult();
+		//System.out.println(adm.getUsername());
+		}
+		catch(NoResultException ex) {
+			ex.printStackTrace();
+		}
+		finally {
+			em.close();
+		}//
+		return dis;
+	}
 	public static Distributor getDistributorByName(String name)
 	{
 		EntityManager em=ENTITY_MANAGER_FACTORY.createEntityManager();
@@ -308,14 +382,39 @@ private static	EntityManagerFactory ENTITY_MANAGER_FACTORY = Persistence.createE
 		Distributor dis= null;
 		try {
 			dis = tq.getSingleResult();
-			return dis;
 		}
 		catch(NoResultException ex) {
 			ex.printStackTrace();
-			return null;
 		}
 		finally {
 			em.close();
 		}
+		return dis;
+	}
+	public static List<Event> getEventsByOrganisatorId(int id)
+	{
+		EntityManager em=ENTITY_MANAGER_FACTORY.createEntityManager();
+		String query = "SELECT event FROM Event event  WHERE event.orgId = :EventOrganisator";
+		TypedQuery<Event> tq = em.createQuery(query, Event.class);
+		tq.setParameter("EventOrganisator", em.getReference(Organisator.class, id));
+		tq.getParameters().toString();
+		List<Event> events = null;
+		try {
+			if(tq.getResultList().isEmpty())
+			{
+				System.out.println("no events found");
+			}
+			else
+			{
+				events = tq.getResultList();
+			}
+		}
+		catch(NoResultException ex) {
+			//ex.printStackTrace();
+		}
+		finally {
+			em.close();
+		}
+		return events;
 	}
 }

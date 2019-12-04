@@ -9,6 +9,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.util.Date;
+import java.util.List;
 import java.awt.event.ActionEvent;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
@@ -25,6 +26,7 @@ import com.toedter.calendar.JYearChooser;
 public class OrgFrame extends JFrame {
 
 	private JPanel contentPane;
+	private List<Event> events;
 
 	/**
 	 * Launch the application.
@@ -45,6 +47,7 @@ public class OrgFrame extends JFrame {
 	/**
 	 * Create the frame.
 	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public OrgFrame() {
 		setTitle("Organisator");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -55,21 +58,26 @@ public class OrgFrame extends JFrame {
 		contentPane.setLayout(null);
 		
 		JButton addEvent = new JButton("Add Event");
-		addEvent.setBounds(130, 343, 89, 23);
+		addEvent.setBounds(130, 214, 89, 23);
 		contentPane.add(addEvent);
 		
-		JButton btnNewButton_1 = new JButton("Edit Event");
-		btnNewButton_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-			}
-		});
-		btnNewButton_1.setBounds(347, 93, 89, 23);
-		contentPane.add(btnNewButton_1);
+		JButton editEvent = new JButton("Edit Event");
+		editEvent.setBounds(10, 214, 89, 23);
+		contentPane.add(editEvent);
 		
 		JComboBox comboBox = new JComboBox();
-		comboBox.setBounds(347, 28, 138, 20);
+		comboBox.setBounds(250, 28, 138, 20);
 		contentPane.add(comboBox);
-		
+		events = null;
+		events = TestMain.getEventsByOrganisatorId(login.getCurrentId());
+		if(events == null )
+		{
+			System.out.println("cyka");
+		}
+		else
+		{
+		comboBox.setModel(new DefaultComboBoxModel(events.toArray()));
+		}
 		JFormattedTextField textName = new JFormattedTextField();
 		textName.setBounds(130, 28, 110, 20);
 		contentPane.add(textName);
@@ -116,8 +124,12 @@ public class OrgFrame extends JFrame {
 		
 		JDateChooser dateChooser = new JDateChooser();
 		dateChooser.setDateFormatString("YYYY/M/d");
-		dateChooser.setBounds(128, 183, 91, 20);
+		dateChooser.setBounds(128, 183, 112, 20);
 		contentPane.add(dateChooser);
+		
+		JButton btnNewButton = new JButton("Invite Distributor");
+		btnNewButton.setBounds(398, 27, 129, 23);
+		contentPane.add(btnNewButton);
 		addEvent.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				String evName, location;
@@ -135,7 +147,60 @@ public class OrgFrame extends JFrame {
 				tpp = Integer.valueOf(textTPP.getText());
 				ticketPrice = Double.valueOf(textPrice.getText());
 				//System.out.println(evDate.getDate());
-				TestMain.addEvent(evName, location, capacity, tpp, ticketPrice,sqlDate);
+				TestMain.addEvent(evName, location, capacity, tpp, ticketPrice,sqlDate,login.getCurrentId());
+				events = TestMain.getEventsByOrganisatorId(login.getCurrentId());
+				if(events == null )
+				{
+					System.out.println("cyka");
+				}
+				else
+				{
+				comboBox.setModel(new DefaultComboBoxModel(events.toArray()));
+				}
+				
+			}
+		});
+		comboBox.addActionListener(
+				new ActionListener()
+				{
+					public void actionPerformed(ActionEvent arg0) {
+						Event e = (Event) comboBox.getSelectedItem();
+						textName.setText(e.getName());
+						textLocation.setText(e.getLocation());
+						textCapacity.setText(String.valueOf(e.getCapacity()));
+						textTPP.setText(String.valueOf(e.getPerPerson()));
+						textPrice.setText(String.valueOf(e.getPrice()));
+						dateChooser.setDate(e.getDate());
+					}
+				});
+		editEvent.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				String evName, location;
+				double ticketPrice;
+				int tpp,capacity,id;
+				//Date evDate=new Date(dateChooser.getDate().toString());
+				java.util.Date datee = (java.util.Date) dateChooser.getDate();
+				java.sql.Date sqlDate = new java.sql.Date(datee.getTime());
+				sqlDate.setMonth(datee.getMonth());
+				sqlDate.setDate(datee.getDay());
+				sqlDate.setYear(datee.getYear());
+				evName = String.valueOf(textName.getText());
+				location = String.valueOf(textLocation.getText());
+				capacity = Integer.valueOf(textCapacity.getText());
+				tpp = Integer.valueOf(textTPP.getText());
+				ticketPrice = Double.valueOf(textPrice.getText());
+				Event e = (Event) comboBox.getSelectedItem();
+				id = e.getId();
+				TestMain.EditEvent(id, evName, location, capacity, tpp, ticketPrice, sqlDate);
+				events = TestMain.getEventsByOrganisatorId(login.getCurrentId());
+				if(events == null )
+				{
+					System.out.println("cyka");
+				}
+				else
+				{
+				comboBox.setModel(new DefaultComboBoxModel(events.toArray()));
+				}
 			}
 		});
 	}

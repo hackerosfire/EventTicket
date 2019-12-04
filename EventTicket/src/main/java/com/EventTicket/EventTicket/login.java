@@ -1,6 +1,5 @@
 package com.EventTicket.EventTicket;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -8,7 +7,6 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JFormattedTextField;
 import javax.swing.JPasswordField;
 import javax.swing.DefaultComboBoxModel;
@@ -20,6 +18,8 @@ public class login extends JFrame {
 
 	private JPanel contentPane;
 	private JPasswordField passwordField;
+	static int currentId;
+	static String currentUserName;
 
 	/**
 	 * Launch the application.
@@ -81,7 +81,9 @@ public class login extends JFrame {
 					if(a.getUsername().equals(String.valueOf(formattedTextField.getText())))
 					{
 						if(a.getPassword().equals(String.valueOf(passwordField.getPassword()))) {
-							System.out.println("login successful");
+							System.out.println("login successful - admin");
+							currentId = a.getId();
+							currentUserName = a.getUsername();
 							AdminFrame admFrm = new AdminFrame();
 							admFrm.adminFrame();
 							dispose();
@@ -99,7 +101,9 @@ public class login extends JFrame {
 					if(o.getUsername().equals(String.valueOf(formattedTextField.getText())))
 					{
 						if(o.getPassword().equals(String.valueOf(passwordField.getPassword()))) {
-							System.out.println("login successful");
+							System.out.println("login successful - organisator");
+							currentId = o.getOrganisatorid();
+							currentUserName = o.getUsername();
 							OrgFrame orgFrm = new OrgFrame();
 							orgFrm.orgFrame();
 							dispose();
@@ -118,7 +122,9 @@ public class login extends JFrame {
 					if(d.getUsername().equals(String.valueOf(formattedTextField.getText())))
 					{
 						if(d.getPassword().equals(String.valueOf(passwordField.getPassword()))) {
-							System.out.println("login successful");
+							System.out.println("login successful - distributor");
+							currentId = d.getId();
+							currentUserName = d.getUsername();
 							dispose();
 						}
 						else
@@ -135,5 +141,13 @@ public class login extends JFrame {
 		btnLogin.setBounds(149, 145, 89, 23);
 		contentPane.add(btnLogin);
 	}
+
+	public static int getCurrentId() {
+		return currentId;
+	}
+	public static String getCurrentUserName() {
+		return currentUserName;
+	}
+	
 
 }

@@ -32,12 +32,20 @@ public class Event {
 	private java.sql.Date date;
 	@Column(name="EventName")
 	private String name;
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "EventOrganisator",referencedColumnName = "idOrganisator")
+	private Organisator orgId;
 	
 	
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "EventType",referencedColumnName = "idEventType")
 	private EventType type;
 	
+	@Override// override because JComboBox uses toString method for adding items
+	public String toString() {
+		return name;
+	}
+
 	public int getId() {
 		return id;
 	}
@@ -100,6 +108,14 @@ public class Event {
 	
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public Organisator getOrgId() {
+		return orgId;
+	}
+
+	public void setOrgId(Organisator orgId) {
+		this.orgId = orgId;
 	}
 	
 }
