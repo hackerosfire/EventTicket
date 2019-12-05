@@ -127,9 +127,21 @@ public class OrgFrame extends JFrame {
 		dateChooser.setBounds(128, 183, 112, 20);
 		contentPane.add(dateChooser);
 		
-		JButton btnNewButton = new JButton("Invite Distributor");
-		btnNewButton.setBounds(398, 27, 129, 23);
-		contentPane.add(btnNewButton);
+		JButton inviteDistributor = new JButton("Invite Distributor");
+		inviteDistributor.setBounds(537, 58, 129, 23);
+		contentPane.add(inviteDistributor);
+		
+		JComboBox distribCombo = new JComboBox();
+		distribCombo.setBounds(537, 28, 110, 20);
+		contentPane.add(distribCombo);
+		
+		JLabel lblCreatedEvents = new JLabel("Created Events");
+		lblCreatedEvents.setBounds(250, 11, 138, 14);
+		contentPane.add(lblCreatedEvents);
+		
+		JLabel lblDistributors = new JLabel("Distributors");
+		lblDistributors.setBounds(417, 31, 110, 14);
+		contentPane.add(lblDistributors);
 		addEvent.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				String evName, location;
