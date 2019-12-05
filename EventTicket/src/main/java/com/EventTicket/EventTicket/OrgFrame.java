@@ -72,7 +72,7 @@ public class OrgFrame extends JFrame {
 		events = TestMain.getEventsByOrganisatorId(login.getCurrentId());
 		if(events == null )
 		{
-			System.out.println("cyka");
+			System.out.println("null events");
 		}
 		else
 		{
@@ -127,13 +127,22 @@ public class OrgFrame extends JFrame {
 		dateChooser.setBounds(128, 183, 112, 20);
 		contentPane.add(dateChooser);
 		
-		JButton inviteDistributor = new JButton("Invite Distributor");
-		inviteDistributor.setBounds(537, 58, 129, 23);
-		contentPane.add(inviteDistributor);
+		
 		
 		JComboBox distribCombo = new JComboBox();
 		distribCombo.setBounds(537, 28, 110, 20);
 		contentPane.add(distribCombo);
+		distribCombo.setModel(new DefaultComboBoxModel(TestMain.getDistributors().toArray()));
+		
+		JButton inviteDistributor = new JButton("Invite Distributor");
+		inviteDistributor.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				TestMain.addInvitation(login.getCurrentId(), (Distributor)distribCombo.getSelectedItem(), (Event)comboBox.getSelectedItem());
+			}
+		});
+		inviteDistributor.setBounds(537, 58, 129, 23);
+		contentPane.add(inviteDistributor);
+;
 		
 		JLabel lblCreatedEvents = new JLabel("Created Events");
 		lblCreatedEvents.setBounds(250, 11, 138, 14);
@@ -163,7 +172,7 @@ public class OrgFrame extends JFrame {
 				events = TestMain.getEventsByOrganisatorId(login.getCurrentId());
 				if(events == null )
 				{
-					System.out.println("cyka");
+					System.out.println("null event");
 				}
 				else
 				{
@@ -207,7 +216,7 @@ public class OrgFrame extends JFrame {
 				events = TestMain.getEventsByOrganisatorId(login.getCurrentId());
 				if(events == null )
 				{
-					System.out.println("cyka");
+					System.out.println("null event");
 				}
 				else
 				{
@@ -215,5 +224,6 @@ public class OrgFrame extends JFrame {
 				}
 			}
 		});
+
 	}
 }

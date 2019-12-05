@@ -6,6 +6,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 @Entity
@@ -15,14 +18,14 @@ public class Invitation {
 @Column(name="idInvitation", unique=true)
 @GeneratedValue(strategy=GenerationType.IDENTITY)
 private int id;
-@OneToOne(cascade = CascadeType.ALL)
-@JoinColumn(name = "idOrganisator")
+@ManyToOne(cascade = CascadeType.MERGE)
+@JoinColumn(name = "organisatorid")
 private Organisator organisatorID;
-@OneToOne(cascade = CascadeType.ALL)
-@JoinColumn(name = "idDistributor")
+@OneToOne(cascade = CascadeType.MERGE)
+@JoinColumn(name = "distributorid")
 private Distributor distributorID;
-@OneToOne(cascade = CascadeType.ALL)
-@JoinColumn(name = "idEvent")
+@OneToOne(cascade = CascadeType.MERGE)
+@JoinColumn(name = "eventid")
 private Event eventID;
 @Column(name="invitationstatus")
 private int status;

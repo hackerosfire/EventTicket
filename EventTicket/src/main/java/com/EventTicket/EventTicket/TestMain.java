@@ -417,4 +417,61 @@ private static	EntityManagerFactory ENTITY_MANAGER_FACTORY = Persistence.createE
 		}
 		return events;
 	}
+	public static List<Distributor> getDistributors()
+	{
+		EntityManager em=ENTITY_MANAGER_FACTORY.createEntityManager();
+		String query = "SELECT distributor FROM Distributor distributor";
+		TypedQuery<Distributor> tq = em.createQuery(query, Distributor.class);
+		//tq.setParameter("EventOrganisator", em.getReference(Organisator.class, id));
+		tq.getParameters().toString();
+		List<Distributor> d = null;
+		try {
+			if(tq.getResultList().isEmpty())
+			{
+				System.out.println("no events found");
+			}
+			else
+			{
+				d = tq.getResultList();
+			}
+		}
+		catch(NoResultException ex) {
+			//ex.printStackTrace();
+		}
+		finally {
+			em.close();
+		}
+		return d;
+	}
+	public static void addInvitation(int idOrganisator,Distributor d,Event e)
+	{
+		EntityManager em=ENTITY_MANAGER_FACTORY.createEntityManager();
+		EntityTransaction et=null;
+		Invitation inv = new Invitation();
+
+		try
+		{
+			et=em.getTransaction();
+			et.begin();
+			inv.setStatus(0);
+			inv.setDistributorID(d);
+			inv.setOrganisatorID(em.getReference(Organisator.class, idOrganisator));
+			inv.setEventID(e);
+			em.persist(inv);
+			et.commit();
+		}
+		catch(Exception ex)
+		{
+			if(et!=null)
+			{
+				et.rollback();
+			}
+			ex.printStackTrace();
+		}
+		finally
+		{
+			em.close();
+			
+		}
+	}
 }
