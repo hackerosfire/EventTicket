@@ -20,7 +20,7 @@ private String fName;
 @Column(name="TICKETlastname")
 private String lName;
 @Column(name="TICKETegn")
-private int EGN;
+private String EGN;
 @OneToOne(cascade = CascadeType.ALL)
 @JoinColumn(name = "idDistributor")
 private Distributor distributorID;
@@ -45,10 +45,10 @@ public String getlName() {
 public void setlName(String lName) {
 	this.lName = lName;
 }
-public int getEGN() {
+public String getEGN() {
 	return EGN;
 }
-public void setEGN(int eGN) {
+public void setEGN(String eGN) {
 	EGN = eGN;
 }
 public Distributor getDistributorID() {
