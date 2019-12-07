@@ -61,4 +61,9 @@ public class Distributor {
 	public String toString() {
 		return username;
 	}
+
+	public void frame() {
+		// TODO Auto-generated method stub
+		
+	}
 }

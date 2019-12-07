@@ -125,6 +125,8 @@ public class login extends JFrame {
 							System.out.println("login successful - distributor");
 							currentId = d.getId();
 							currentUserName = d.getUsername();
+							DistributorFrame dstFrm = new DistributorFrame();
+							dstFrm.DistributorFrame();
 							dispose();
 						}
 						else

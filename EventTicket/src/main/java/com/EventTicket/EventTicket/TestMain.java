@@ -498,4 +498,58 @@ private static	EntityManagerFactory ENTITY_MANAGER_FACTORY = Persistence.createE
 			
 		}
 	}
+	public static int getTicketsSold(String egn)
+	{
+		EntityManager em=ENTITY_MANAGER_FACTORY.createEntityManager();
+		String query = "SELECT ticket FROM Ticket ticket where ticket.EGN=:TICKETegn";
+		TypedQuery<Ticket> tq = em.createQuery(query, Ticket.class);
+		tq.setParameter("TICKETegn", egn);
+		//tq.getParameters().toString();
+		List<Ticket> t = null;
+		try {
+			if(tq.getResultList().isEmpty())
+			{
+				return 0;
+				//System.out.println("no events found");
+			}
+			else
+			{
+				t = tq.getResultList();
+				return t.size();
+			}
+		}
+		catch(NoResultException ex) {
+			return 0;
+		}
+		finally {
+			em.close();
+			//return t.size();
+		}
+	}
+	public static List<Event> getEvents()
+	{
+		EntityManager em=ENTITY_MANAGER_FACTORY.createEntityManager();
+		String query = "SELECT event FROM Event event";
+		TypedQuery<Event> tq = em.createQuery(query, Event.class);
+		//tq.setParameter("EventOrganisator", em.getReference(Organisator.class, id));
+		tq.getParameters().toString();
+		List<Event> events = null;
+		try {
+			if(tq.getResultList().isEmpty())
+			{
+				System.out.println("no events found");
+			}
+			else
+			{
+				events = tq.getResultList();
+			}
+		}
+		catch(NoResultException ex) {
+			//ex.printStackTrace();
+		}
+		finally {
+			em.close();
+		}
+		return events;
+	}
 }

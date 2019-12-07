@@ -7,23 +7,30 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JTextField;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JComboBox;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class DistributorFrame extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
+	private JTextField nameField;
+	private JTextField lastnameField;
+	private JTextField egnField;
 
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
+	public static void DistributorFrame() {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -59,45 +66,62 @@ public class DistributorFrame extends JFrame {
 		lblEgn.setBounds(10, 110, 46, 14);
 		contentPane.add(lblEgn);
 		
-		JLabel lblNewLabel = new JLabel("Amount");
-		lblNewLabel.setBounds(10, 147, 46, 14);
-		contentPane.add(lblNewLabel);
-		
 		JLabel lblPrice = new JLabel("Price");
-		lblPrice.setBounds(10, 182, 46, 14);
+		lblPrice.setBounds(10, 150, 46, 14);
 		contentPane.add(lblPrice);
 		
-		JLabel label = new JLabel("");
-		label.setBounds(86, 182, 46, 14);
-		contentPane.add(label);
+		JComboBox eventComboBox = new JComboBox();
+		eventComboBox.setBounds(78, 10, 87, 20);
+		contentPane.add(eventComboBox);
+		eventComboBox.setModel(new DefaultComboBoxModel(TestMain.getEvents().toArray()));
+		
+		JLabel priceLabel = new JLabel("Click to load Price");
+		priceLabel.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+
+				priceLabel.setText(String.valueOf(((Event) eventComboBox.getSelectedItem()).getPrice()));
+			}
+		});
+		priceLabel.setBounds(78, 150, 46, 14);
+		contentPane.add(priceLabel);
 		
 		JButton btnBuy = new JButton("Buy");
 		btnBuy.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
+			EntityManagerFactory ENTITY_MANAGER_FACTORY = Persistence.createEntityManagerFactory("EventTicket");
+			EntityManager em=ENTITY_MANAGER_FACTORY.createEntityManager();
+			if(TestMain.getTicketsSold(egnField.getText())<=Integer.valueOf(((Event) eventComboBox.getSelectedItem()).getPerPerson()))
+				TestMain.addТicket(nameField.getText(), lastnameField.getText(), egnField.getText(),em.getReference(Distributor.class, login.getCurrentId()),(Event)eventComboBox.getSelectedItem());
+			else
+			{
+				JOptionPane.showMessageDialog(null,"Tickets per person limit reached!");
 			}
+			}
+
 		});
 		btnBuy.setBounds(76, 227, 89, 23);
 		contentPane.add(btnBuy);
 		
-		textField = new JTextField();
-		textField.setBounds(79, 35, 86, 20);
-		contentPane.add(textField);
-		textField.setColumns(10);
+		nameField = new JTextField();
+		nameField.setBounds(79, 35, 86, 20);
+		contentPane.add(nameField);
+		nameField.setColumns(10);
 		
-		textField_1 = new JTextField();
-		textField_1.setBounds(79, 70, 86, 20);
-		contentPane.add(textField_1);
-		textField_1.setColumns(10);
+		lastnameField = new JTextField();
+		lastnameField.setBounds(79, 70, 86, 20);
+		contentPane.add(lastnameField);
+		lastnameField.setColumns(10);
 		
-		textField_2 = new JTextField();
-		textField_2.setBounds(79, 107, 86, 20);
-		contentPane.add(textField_2);
-		textField_2.setColumns(10);
+		egnField = new JTextField();
+		egnField.setBounds(79, 107, 86, 20);
+		contentPane.add(egnField);
+		egnField.setColumns(10);
 		
-		textField_3 = new JTextField();
-		textField_3.setBounds(79, 144, 86, 20);
-		contentPane.add(textField_3);
-		textField_3.setColumns(10);
+		JLabel lblEvent = new JLabel("Event");
+		lblEvent.setBounds(10, 13, 46, 14);
+		contentPane.add(lblEvent);
+		
+
 	}
 }
