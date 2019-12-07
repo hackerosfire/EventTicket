@@ -15,15 +15,8 @@ public class TestMain {
 
 private static	EntityManagerFactory ENTITY_MANAGER_FACTORY = Persistence.createEntityManagerFactory("EventTicket");
 	public static void main(String[] args) {
-		//addAdmin(1,"test","test");
-		//addAdmin(33,"admin2","admin2");
-		//addAdmin(5,"admin3","parola");
-		//ENTITY_MANAGER_FACTORY.close();
-		//addDistributor(1,"dis1","parola");
-		//addOrganisator(1,"org1","parola");
 		frame1 mainframe = new frame1();
 		mainframe.frame();
-		//System.out.println(checkAdminByName("test"));
 
 	}
 	public static void addAdmin(String username,String password)
@@ -458,6 +451,37 @@ private static	EntityManagerFactory ENTITY_MANAGER_FACTORY = Persistence.createE
 			inv.setOrganisatorID(em.getReference(Organisator.class, idOrganisator));
 			inv.setEventID(e);
 			em.persist(inv);
+			et.commit();
+		}
+		catch(Exception ex)
+		{
+			if(et!=null)
+			{
+				et.rollback();
+			}
+			ex.printStackTrace();
+		}
+		finally
+		{
+			em.close();
+			
+		}
+	}
+	public static void addТicket(String fname,String lname,String egn,Distributor d,Event e)
+	{
+		EntityManager em=ENTITY_MANAGER_FACTORY.createEntityManager();
+		EntityTransaction et=null;
+		Ticket ticket = new Ticket();
+		try
+		{
+			et=em.getTransaction();
+			et.begin();
+			ticket.setEGN(egn);
+			ticket.setfName(fname);
+			ticket.setlName(lname);
+			ticket.setEventID(e);
+			ticket.setDistributorID(d);
+			em.persist(ticket);
 			et.commit();
 		}
 		catch(Exception ex)

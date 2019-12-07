@@ -21,10 +21,10 @@ private String fName;
 private String lName;
 @Column(name="TICKETegn")
 private String EGN;
-@OneToOne(cascade = CascadeType.ALL)
+@OneToOne(cascade = CascadeType.MERGE)
 @JoinColumn(name = "idDistributor")
 private Distributor distributorID;
-@OneToOne(cascade = CascadeType.ALL)
+@OneToOne(cascade = CascadeType.MERGE)
 @JoinColumn(name = "idEvent")
 private Event eventID;
 public int getId() {
