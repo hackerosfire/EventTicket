@@ -19,6 +19,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.JComboBox;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.List;
 
 public class DistributorFrame extends JFrame {
 
@@ -26,6 +27,7 @@ public class DistributorFrame extends JFrame {
 	private JTextField nameField;
 	private JTextField lastnameField;
 	private JTextField egnField;
+	private List<Invitation> invs = null;
 
 	/**
 	 * Launch the application.
@@ -48,7 +50,7 @@ public class DistributorFrame extends JFrame {
 	 */
 	public DistributorFrame() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 552, 300);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -121,6 +123,20 @@ public class DistributorFrame extends JFrame {
 		JLabel lblEvent = new JLabel("Event");
 		lblEvent.setBounds(10, 13, 46, 14);
 		contentPane.add(lblEvent);
+		JComboBox invitations = new JComboBox();
+		invitations.setBounds(304, 10, 86, 20);
+		contentPane.add(invitations);
+		invs = null;
+		invs = TestMain.getInvitationsByDistributorId(login.getCurrentId());
+		if(invs == null )
+		{
+			System.out.println("null invitations");
+		}
+		else
+		{
+		invitations.setModel(new DefaultComboBoxModel(invs.toArray()));
+		}
+
 		
 
 	}

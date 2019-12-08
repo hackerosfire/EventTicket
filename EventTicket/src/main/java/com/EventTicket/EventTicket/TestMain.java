@@ -413,7 +413,7 @@ private static	EntityManagerFactory ENTITY_MANAGER_FACTORY = Persistence.createE
 	public static List<Distributor> getDistributors()
 	{
 		EntityManager em=ENTITY_MANAGER_FACTORY.createEntityManager();
-		String query = "SELECT distributor FROM Distributor distributor";
+		String query = "SELECT distributor FROM Distributor distributor WHERE distributor.id IS NOT NULL";
 		TypedQuery<Distributor> tq = em.createQuery(query, Distributor.class);
 		//tq.setParameter("EventOrganisator", em.getReference(Organisator.class, id));
 		tq.getParameters().toString();
@@ -529,7 +529,7 @@ private static	EntityManagerFactory ENTITY_MANAGER_FACTORY = Persistence.createE
 	public static List<Event> getEvents()
 	{
 		EntityManager em=ENTITY_MANAGER_FACTORY.createEntityManager();
-		String query = "SELECT event FROM Event event";
+		String query = "SELECT event FROM Event event WHERE event.id IS NOT NULL";
 		TypedQuery<Event> tq = em.createQuery(query, Event.class);
 		//tq.setParameter("EventOrganisator", em.getReference(Organisator.class, id));
 		tq.getParameters().toString();
@@ -551,5 +551,31 @@ private static	EntityManagerFactory ENTITY_MANAGER_FACTORY = Persistence.createE
 			em.close();
 		}
 		return events;
+	}
+	public static List<Invitation> getInvitationsByDistributorId(int distrID) {
+		
+		EntityManager em=ENTITY_MANAGER_FACTORY.createEntityManager();
+		String query = "SELECT invitation FROM Invitation invitation WHERE invitation.distributorID = :disID";
+		TypedQuery<Invitation> tq = em.createQuery(query, Invitation.class);
+		tq.setParameter("disID", em.getReference(Distributor.class, distrID));
+		tq.getParameters().toString();
+		List<Invitation> invs = null;
+		try {
+			if(tq.getResultList().isEmpty())
+			{
+				System.out.println("no events found");
+			}
+			else
+			{
+				invs = tq.getResultList();
+			}
+		}
+		catch(NoResultException ex) {
+			//ex.printStackTrace();
+		}
+		finally {
+			em.close();
+		}
+		return invs;
 	}
 }
