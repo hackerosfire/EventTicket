@@ -64,7 +64,7 @@ private int status;
 	}
 	@Override
 	public String toString() {
-		return getEventID().getName();
+		return eventID.getName();
 	}
 	
 }

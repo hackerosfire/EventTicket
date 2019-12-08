@@ -10,6 +10,7 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.NoResultException;
 import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
+import javax.swing.JOptionPane;
 
 public class TestMain {
 
@@ -552,10 +553,10 @@ private static	EntityManagerFactory ENTITY_MANAGER_FACTORY = Persistence.createE
 		}
 		return events;
 	}
-	public static List<Invitation> getInvitationsByDistributorId(int distrID) {
+	public static List<Invitation> getPendingInvitationsByDistributorId(int distrID) {
 		
 		EntityManager em=ENTITY_MANAGER_FACTORY.createEntityManager();
-		String query = "SELECT invitation FROM Invitation invitation WHERE invitation.distributorID = :disID";
+		String query = "SELECT invitation FROM Invitation invitation WHERE invitation.distributorID = :disID AND invitation.status = 0";
 		TypedQuery<Invitation> tq = em.createQuery(query, Invitation.class);
 		tq.setParameter("disID", em.getReference(Distributor.class, distrID));
 		tq.getParameters().toString();
@@ -577,5 +578,102 @@ private static	EntityManagerFactory ENTITY_MANAGER_FACTORY = Persistence.createE
 			em.close();
 		}
 		return invs;
+	}
+public static List<Invitation> getAcceptedInvitationsByDistributorId(int distrID) {
+		
+		EntityManager em=ENTITY_MANAGER_FACTORY.createEntityManager();
+		String query = "SELECT invitation FROM Invitation invitation WHERE invitation.distributorID = :disID AND invitation.status = 1";
+		TypedQuery<Invitation> tq = em.createQuery(query, Invitation.class);
+		tq.setParameter("disID", em.getReference(Distributor.class, distrID));
+		tq.getParameters().toString();
+		List<Invitation> invs = null;
+		try {
+			if(tq.getResultList().isEmpty())
+			{
+				System.out.println("no events found");
+			}
+			else
+			{
+				invs = tq.getResultList();
+			}
+		}
+		catch(NoResultException ex) {
+			//ex.printStackTrace();
+		}
+		finally {
+			em.close();
+		}
+		return invs;
+	}
+	public static void acceptInv(int id)
+	{
+		EntityManager em=ENTITY_MANAGER_FACTORY.createEntityManager();
+		EntityTransaction et=null;
+		Invitation i= null;
+		try
+		{
+			et=em.getTransaction();
+			et.begin();
+			i = em.find(Invitation.class, id);
+			if(i.getStatus()==0) {
+				i.setStatus(1);
+				em.persist(i);
+				et.commit();
+			}
+			else if(i.getStatus()==-1){
+				JOptionPane.showMessageDialog(null, "Invitation was rejected", "InfoBox: " + "Error", JOptionPane.INFORMATION_MESSAGE);
+			}
+			else {
+				JOptionPane.showMessageDialog(null, "Invitation already accepted", "InfoBox: " + "Error", JOptionPane.INFORMATION_MESSAGE);
+			}	
+		}
+		catch(Exception ex)
+		{
+			if(et!=null)
+			{
+				et.rollback();
+			}
+			ex.printStackTrace();
+		}
+		finally
+		{
+			em.close();
+			
+		}
+	}
+	public static void declineInv(int id) {
+		EntityManager em=ENTITY_MANAGER_FACTORY.createEntityManager();
+		EntityTransaction et=null;
+		Invitation i= null;
+		try
+		{
+			et=em.getTransaction();
+			et.begin();
+			i = em.find(Invitation.class, id);
+			if(i.getStatus()==0) {
+				i.setStatus(-1);
+				em.persist(i);
+				et.commit();
+			}
+			else if(i.getStatus()==-1){
+				JOptionPane.showMessageDialog(null, "Invitation was rejected", "InfoBox: " + "Error", JOptionPane.INFORMATION_MESSAGE);
+			}
+			else {
+				JOptionPane.showMessageDialog(null, "Invitation already accepted", "InfoBox: " + "Error", JOptionPane.INFORMATION_MESSAGE);
+			}	
+		}
+		catch(Exception ex)
+		{
+			if(et!=null)
+			{
+				et.rollback();
+			}
+			ex.printStackTrace();
+		}
+		finally
+		{
+			em.close();
+			
+		}
 	}
 }

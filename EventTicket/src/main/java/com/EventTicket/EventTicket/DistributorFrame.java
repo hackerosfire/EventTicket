@@ -28,6 +28,7 @@ public class DistributorFrame extends JFrame {
 	private JTextField lastnameField;
 	private JTextField egnField;
 	private List<Invitation> invs = null;
+	private List<Invitation> acceptedInvs = null;
 
 	/**
 	 * Launch the application.
@@ -50,7 +51,7 @@ public class DistributorFrame extends JFrame {
 	 */
 	public DistributorFrame() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 552, 300);
+		setBounds(100, 100, 645, 300);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -124,20 +125,100 @@ public class DistributorFrame extends JFrame {
 		lblEvent.setBounds(10, 13, 46, 14);
 		contentPane.add(lblEvent);
 		JComboBox invitations = new JComboBox();
-		invitations.setBounds(304, 10, 86, 20);
+		invitations.setBounds(285, 10, 86, 20);
 		contentPane.add(invitations);
-		invs = null;
-		invs = TestMain.getInvitationsByDistributorId(login.getCurrentId());
+		
+		JComboBox acceptedEvents = new JComboBox();
+		acceptedEvents.setBounds(285, 35, 87, 20);
+		contentPane.add(acceptedEvents);
+		
+		JLabel lblPending = new JLabel("Pending Invitations");
+		lblPending.setBounds(175, 13, 120, 14);
+		contentPane.add(lblPending);
+		
+		JLabel lblAccepted = new JLabel("Accepted Events");
+		lblAccepted.setBounds(175, 38, 120, 14);
+		contentPane.add(lblAccepted);
+		
+		JButton btnAcceptInvite = new JButton("Accept");
+		btnAcceptInvite.setBounds(381, 9, 89, 23);
+		contentPane.add(btnAcceptInvite);
+		
+		JButton btnDeclineInvite = new JButton("Decline");
+		btnDeclineInvite.setBounds(480, 9, 89, 23);
+		contentPane.add(btnDeclineInvite);
+		invs = TestMain.getPendingInvitationsByDistributorId(login.getCurrentId());
 		if(invs == null )
 		{
 			System.out.println("null invitations");
 		}
 		else
 		{
-		invitations.setModel(new DefaultComboBoxModel(invs.toArray()));
+			invitations.setModel(new DefaultComboBoxModel(invs.toArray()));
 		}
+		acceptedInvs = TestMain.getAcceptedInvitationsByDistributorId(login.getCurrentId());
+		if(acceptedInvs == null )
+		{
+			System.out.println("null invitations");
+		}
+		else
+		{
+		acceptedEvents.setModel(new DefaultComboBoxModel(acceptedInvs.toArray()));
+		}
+		btnAcceptInvite.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Invitation i = new Invitation();
+				i = (Invitation) invitations.getSelectedItem();
+				TestMain.acceptInv(i.getId());
+				invs = TestMain.getPendingInvitationsByDistributorId(login.getCurrentId());
+				if(invs == null )
+				{
+					System.out.println("null invitations");
+					invitations.setModel(new DefaultComboBoxModel(invs.toArray()));
+				}
+				else
+				{
+				invitations.setModel(new DefaultComboBoxModel(invs.toArray()));
+				}
+				acceptedInvs = TestMain.getAcceptedInvitationsByDistributorId(login.getCurrentId());
+				if(acceptedInvs == null )
+				{
+					System.out.println("null invitations");
+				}
+				else
+				{
+				acceptedEvents.setModel(new DefaultComboBoxModel(acceptedInvs.toArray()));
+				}
 
-		
+			}
+		});
+		btnDeclineInvite.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Invitation i = new Invitation();
+				i = (Invitation) invitations.getSelectedItem();
+				TestMain.declineInv(i.getId());
+				invs = TestMain.getPendingInvitationsByDistributorId(login.getCurrentId());
+				if(invs == null )
+				{
+					System.out.println("null invitations");
+					invitations.setModel(new DefaultComboBoxModel(invs.toArray()));
+				}
+				else
+				{
+				invitations.setModel(new DefaultComboBoxModel(invs.toArray()));
+				}
+				acceptedInvs = TestMain.getAcceptedInvitationsByDistributorId(login.getCurrentId());
+				if(acceptedInvs == null )
+				{
+					System.out.println("null invitations");
+				}
+				else
+				{
+				acceptedEvents.setModel(new DefaultComboBoxModel(acceptedInvs.toArray()));
+				}
+
+			}
+		});
 
 	}
 }
