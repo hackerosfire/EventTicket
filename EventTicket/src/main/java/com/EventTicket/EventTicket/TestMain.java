@@ -411,6 +411,24 @@ private static	EntityManagerFactory ENTITY_MANAGER_FACTORY = Persistence.createE
 		}
 		return events;
 	}
+	public static Event getEvent(int id)
+	{
+		EntityManager em=ENTITY_MANAGER_FACTORY.createEntityManager();
+		String query = "SELECT event FROM Event event WHERE event.id = :idEvent";
+		TypedQuery<Event> tq = em.createQuery(query, Event.class);
+		tq.setParameter("idEvent", id);
+		Event ev = null;
+		try {
+		ev = tq.getSingleResult();
+		}
+		catch(NoResultException ex) {
+			ex.printStackTrace();
+		}
+		finally {
+			em.close();
+		}
+		return ev;
+	}
 	public static List<Distributor> getDistributors()
 	{
 		EntityManager em=ENTITY_MANAGER_FACTORY.createEntityManager();
@@ -550,6 +568,49 @@ private static	EntityManagerFactory ENTITY_MANAGER_FACTORY = Persistence.createE
 		}
 		finally {
 			em.close();
+		}
+		return events;
+	}
+	/*public static List<Event> getAcceptedEventsByDistributorId(int distrID)//WIP ----------------------------------------------------------------------------------------------------
+	{
+		EntityManager em=ENTITY_MANAGER_FACTORY.createEntityManager();
+		String query = "SELECT event FROM Event event WHERE event.id  = ";
+		TypedQuery<Event> tq = em.createQuery(query, Event.class);
+		String query2 = "SELECT invitation FROM Invitation invitation WHERE invitation.distributorID = :disID AND invitation.status = 1";
+		TypedQuery<Invitation> tq2 = em.createQuery(query2, Invitation.class);
+		tq2.setParameter("disID", em.getReference(Distributor.class, distrID));
+		List<Event> events = null;
+		try {
+			if(tq.getResultList().isEmpty())
+			{
+				System.out.println("no events found");
+			}
+			else
+			{
+				events = tq.getResultList();
+			}
+		}
+		catch(NoResultException ex) {
+			//ex.printStackTrace();
+		}
+		finally {
+			em.close();
+		}
+		return events;
+	}*/
+	public static List<Event> getAcceptedEventsByDistributorId(int distrID)//WIP ----------------------------------------------------------------------------------------------------
+	{
+		Invitation invite = null;
+		List<Event> events = new ArrayList<Event>();
+		Event ev = null;
+		List<Invitation> invs = getAcceptedInvitationsByDistributorId(distrID);
+		if(invs != null) {
+			for(int i=0; i<invs.size();i++){
+				invite = invs.get(i);
+				ev = (Event) getEvent(invite.getEventID().getId());
+				System.out.println(ev.toString());
+				events.add(ev);
+			}
 		}
 		return events;
 	}

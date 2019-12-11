@@ -27,7 +27,7 @@ private Organisator organisatorID;
 @OneToOne(cascade = CascadeType.MERGE)
 @JoinColumn(name = "distributorid")
 private Distributor distributorID;
-@OneToOne(cascade = CascadeType.MERGE)
+@ManyToOne(cascade = CascadeType.MERGE)
 @JoinColumn(name = "eventid")
 private Event eventID;
 @Column(name="invitationstatus")

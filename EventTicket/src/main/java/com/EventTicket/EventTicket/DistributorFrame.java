@@ -20,6 +20,7 @@ import javax.swing.JComboBox;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
+import java.awt.Color;
 
 public class DistributorFrame extends JFrame {
 
@@ -29,6 +30,7 @@ public class DistributorFrame extends JFrame {
 	private JTextField egnField;
 	private List<Invitation> invs = null;
 	private List<Invitation> acceptedInvs = null;
+	private Event e = null; 
 
 	/**
 	 * Launch the application.
@@ -53,6 +55,7 @@ public class DistributorFrame extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 645, 300);
 		contentPane = new JPanel();
+		contentPane.setForeground(Color.BLACK);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
@@ -76,16 +79,14 @@ public class DistributorFrame extends JFrame {
 		JComboBox eventComboBox = new JComboBox();
 		eventComboBox.setBounds(78, 10, 87, 20);
 		contentPane.add(eventComboBox);
-		eventComboBox.setModel(new DefaultComboBoxModel(TestMain.getEvents().toArray()));
-		
-		JLabel priceLabel = new JLabel("Click to load Price");
-		priceLabel.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-
-				priceLabel.setText(String.valueOf(((Event) eventComboBox.getSelectedItem()).getPrice()));
-			}
-		});
+		if(TestMain.getAcceptedEventsByDistributorId(login.getCurrentId())==null)
+		{
+			System.out.println("eeeh");
+		}
+		else {
+			eventComboBox.setModel(new DefaultComboBoxModel(TestMain.getAcceptedEventsByDistributorId(login.getCurrentId()).toArray()));	
+		}
+		JLabel priceLabel = new JLabel("");
 		priceLabel.setBounds(78, 150, 46, 14);
 		contentPane.add(priceLabel);
 		
@@ -125,28 +126,34 @@ public class DistributorFrame extends JFrame {
 		lblEvent.setBounds(10, 13, 46, 14);
 		contentPane.add(lblEvent);
 		JComboBox invitations = new JComboBox();
-		invitations.setBounds(285, 10, 86, 20);
+		invitations.setBounds(335, 35, 86, 20);
 		contentPane.add(invitations);
 		
 		JComboBox acceptedEvents = new JComboBox();
-		acceptedEvents.setBounds(285, 35, 87, 20);
+		acceptedEvents.setBounds(335, 70, 87, 20);
 		contentPane.add(acceptedEvents);
 		
 		JLabel lblPending = new JLabel("Pending Invitations");
-		lblPending.setBounds(175, 13, 120, 14);
+		lblPending.setBounds(204, 38, 120, 14);
 		contentPane.add(lblPending);
 		
 		JLabel lblAccepted = new JLabel("Accepted Events");
-		lblAccepted.setBounds(175, 38, 120, 14);
+		lblAccepted.setBounds(205, 73, 120, 14);
 		contentPane.add(lblAccepted);
 		
 		JButton btnAcceptInvite = new JButton("Accept");
-		btnAcceptInvite.setBounds(381, 9, 89, 23);
+		btnAcceptInvite.setBounds(431, 34, 89, 23);
 		contentPane.add(btnAcceptInvite);
 		
 		JButton btnDeclineInvite = new JButton("Decline");
-		btnDeclineInvite.setBounds(480, 9, 89, 23);
+		btnDeclineInvite.setBounds(530, 34, 89, 23);
 		contentPane.add(btnDeclineInvite);
+		
+		JLabel lblNewInvite = new JLabel("New Invitations");
+		lblNewInvite.setForeground(Color.BLACK);
+		lblNewInvite.setBackground(Color.WHITE);
+		lblNewInvite.setBounds(335, 13, 89, 14);
+		contentPane.add(lblNewInvite);
 		invs = TestMain.getPendingInvitationsByDistributorId(login.getCurrentId());
 		if(invs == null )
 		{
@@ -154,6 +161,7 @@ public class DistributorFrame extends JFrame {
 		}
 		else
 		{
+			JOptionPane.showMessageDialog(null, "New Invitations", "InfoBox: " + "Notification", JOptionPane.INFORMATION_MESSAGE);
 			invitations.setModel(new DefaultComboBoxModel(invs.toArray()));
 		}
 		acceptedInvs = TestMain.getAcceptedInvitationsByDistributorId(login.getCurrentId());
@@ -165,16 +173,32 @@ public class DistributorFrame extends JFrame {
 		{
 		acceptedEvents.setModel(new DefaultComboBoxModel(acceptedInvs.toArray()));
 		}
+		e = (Event) eventComboBox.getSelectedItem();
+		if(e==null) {
+			
+		}
+		else{
+		priceLabel.setText(String.valueOf(e.getPrice()));
+		}
+		eventComboBox.addActionListener(
+				new ActionListener()
+				{
+					public void actionPerformed(ActionEvent arg0) {
+						e = (Event) eventComboBox.getSelectedItem();
+						priceLabel.setText(String.valueOf(e.getPrice()));
+					}
+				});
 		btnAcceptInvite.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				Invitation i = new Invitation();
 				i = (Invitation) invitations.getSelectedItem();
 				TestMain.acceptInv(i.getId());
 				invs = TestMain.getPendingInvitationsByDistributorId(login.getCurrentId());
+				invitations.removeItem(i);
 				if(invs == null )
 				{
 					System.out.println("null invitations");
-					invitations.setModel(new DefaultComboBoxModel(invs.toArray()));
+					//invitations.setModel(new DefaultComboBoxModel(invs.toArray()));
 				}
 				else
 				{
@@ -188,6 +212,13 @@ public class DistributorFrame extends JFrame {
 				else
 				{
 				acceptedEvents.setModel(new DefaultComboBoxModel(acceptedInvs.toArray()));
+				}
+				if(TestMain.getAcceptedEventsByDistributorId(login.getCurrentId())==null)
+				{
+					System.out.println("eeeh");
+				}
+				else {
+					eventComboBox.setModel(new DefaultComboBoxModel(TestMain.getAcceptedEventsByDistributorId(login.getCurrentId()).toArray()));	
 				}
 
 			}

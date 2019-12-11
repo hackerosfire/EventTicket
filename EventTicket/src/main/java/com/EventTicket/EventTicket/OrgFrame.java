@@ -162,6 +162,7 @@ public class OrgFrame extends JFrame {
 				sqlDate.setMonth(datee.getMonth());
 				sqlDate.setDate(datee.getDay());
 				sqlDate.setYear(datee.getYear());
+				sqlDate.setTime(datee.getTime());
 				evName = String.valueOf(textName.getText());
 				location = String.valueOf(textLocation.getText());
 				capacity = Integer.valueOf(textCapacity.getText());
