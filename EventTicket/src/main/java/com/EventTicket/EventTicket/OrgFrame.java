@@ -22,11 +22,15 @@ import com.toedter.calendar.JMonthChooser;
 import com.toedter.calendar.JCalendar;
 import com.toedter.calendar.JDateChooser;
 import com.toedter.calendar.JYearChooser;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class OrgFrame extends JFrame {
 
 	private JPanel contentPane;
 	private List<Event> events;
+	java.util.Date datee=null;
+	java.sql.Date sqlDate=null;
 
 	/**
 	 * Launch the application.
@@ -121,13 +125,10 @@ public class OrgFrame extends JFrame {
 		JLabel lblDate = new JLabel("Day");
 		lblDate.setBounds(10, 180, 46, 14);
 		contentPane.add(lblDate);
-		
 		JDateChooser dateChooser = new JDateChooser();
 		dateChooser.setDateFormatString("YYYY/M/d");
 		dateChooser.setBounds(128, 183, 112, 20);
 		contentPane.add(dateChooser);
-		
-		
 		
 		JComboBox distribCombo = new JComboBox();
 		distribCombo.setBounds(537, 28, 110, 20);
@@ -151,18 +152,21 @@ public class OrgFrame extends JFrame {
 		JLabel lblDistributors = new JLabel("Distributors");
 		lblDistributors.setBounds(417, 31, 110, 14);
 		contentPane.add(lblDistributors);
+		
+		JButton btnGetTicketsSold = new JButton("Get Tickets Sold");
+		btnGetTicketsSold.setBounds(250, 59, 110, 23);
+		contentPane.add(btnGetTicketsSold);
 		addEvent.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				String evName, location;
 				double ticketPrice;
 				int tpp,capacity;
 				//Date evDate=new Date(dateChooser.getDate().toString());
-				java.util.Date datee = (java.util.Date) dateChooser.getDate();
-				java.sql.Date sqlDate = new java.sql.Date(datee.getTime());
+				datee = (java.util.Date) dateChooser.getDate();
+				sqlDate = new java.sql.Date(datee.getTime());
 				sqlDate.setMonth(datee.getMonth());
 				sqlDate.setDate(datee.getDay());
-				sqlDate.setYear(datee.getYear());
-				sqlDate.setTime(datee.getTime());
+				sqlDate.setYear(datee.getYear()+1);
 				evName = String.valueOf(textName.getText());
 				location = String.valueOf(textLocation.getText());
 				capacity = Integer.valueOf(textCapacity.getText());
@@ -225,6 +229,10 @@ public class OrgFrame extends JFrame {
 				}
 			}
 		});
-
+		btnGetTicketsSold.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
 	}
 }

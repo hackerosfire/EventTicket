@@ -154,6 +154,22 @@ public class DistributorFrame extends JFrame {
 		lblNewInvite.setBackground(Color.WHITE);
 		lblNewInvite.setBounds(335, 13, 89, 14);
 		contentPane.add(lblNewInvite);
+		
+		JButton btnGetTotalSales = new JButton("Get Total Sales");
+		btnGetTotalSales.setBounds(335, 227, 120, 23);
+		contentPane.add(btnGetTotalSales);
+		
+		JLabel lblTotalSales = new JLabel("");
+		lblTotalSales.setBounds(481, 231, 46, 14);
+		contentPane.add(lblTotalSales);
+		
+		JButton btnGetEventSales = new JButton("Get Event Sales");
+		btnGetEventSales.setBounds(335, 106, 120, 23);
+		contentPane.add(btnGetEventSales);
+		
+		JLabel lblEventSales = new JLabel("");
+		lblEventSales.setBounds(465, 110, 46, 14);
+		contentPane.add(lblEventSales);
 		invs = TestMain.getPendingInvitationsByDistributorId(login.getCurrentId());
 		if(invs == null )
 		{
@@ -250,6 +266,16 @@ public class DistributorFrame extends JFrame {
 
 			}
 		});
-
+		btnGetTotalSales.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				lblTotalSales.setText(String.valueOf(TestMain.totalSalesByDistributorId(login.getCurrentId())));
+			}
+		});
+		btnGetEventSales.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Invitation inv= (Invitation) acceptedEvents.getSelectedItem();
+				lblEventSales.setText(String.valueOf(TestMain.salesByDistributorIdandEventId(login.getCurrentId(),inv.getEventID().getId())));
+			}
+		});
 	}
 }

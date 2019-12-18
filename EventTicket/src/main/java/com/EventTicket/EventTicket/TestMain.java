@@ -571,34 +571,7 @@ private static	EntityManagerFactory ENTITY_MANAGER_FACTORY = Persistence.createE
 		}
 		return events;
 	}
-	/*public static List<Event> getAcceptedEventsByDistributorId(int distrID)//WIP ----------------------------------------------------------------------------------------------------
-	{
-		EntityManager em=ENTITY_MANAGER_FACTORY.createEntityManager();
-		String query = "SELECT event FROM Event event WHERE event.id  = ";
-		TypedQuery<Event> tq = em.createQuery(query, Event.class);
-		String query2 = "SELECT invitation FROM Invitation invitation WHERE invitation.distributorID = :disID AND invitation.status = 1";
-		TypedQuery<Invitation> tq2 = em.createQuery(query2, Invitation.class);
-		tq2.setParameter("disID", em.getReference(Distributor.class, distrID));
-		List<Event> events = null;
-		try {
-			if(tq.getResultList().isEmpty())
-			{
-				System.out.println("no events found");
-			}
-			else
-			{
-				events = tq.getResultList();
-			}
-		}
-		catch(NoResultException ex) {
-			//ex.printStackTrace();
-		}
-		finally {
-			em.close();
-		}
-		return events;
-	}*/
-	public static List<Event> getAcceptedEventsByDistributorId(int distrID)//WIP ----------------------------------------------------------------------------------------------------
+	public static List<Event> getAcceptedEventsByDistributorId(int distrID)
 	{
 		Invitation invite = null;
 		List<Event> events = new ArrayList<Event>();
@@ -737,4 +710,60 @@ public static List<Invitation> getAcceptedInvitationsByDistributorId(int distrID
 			
 		}
 	}
+	public static Long totalSalesByDistributorId(int Id) {
+
+		EntityManager em=ENTITY_MANAGER_FACTORY.createEntityManager();
+		String query = "SELECT COUNT(ticket) FROM Ticket ticket WHERE TICKETdistributor = :DistributorId";
+		TypedQuery<Long> tq = em.createQuery(query, Long.class);
+		tq.setParameter("DistributorId", Id);
+		Long result = null;
+		try {
+			result = tq.getSingleResult();
+		}
+		catch(NoResultException ex) {
+			ex.printStackTrace();
+		}
+		finally {
+			em.close();
+		}
+		return result;
+	}
+	public static Long salesByDistributorIdandEventId(int Id,int eventId) {
+
+		EntityManager em=ENTITY_MANAGER_FACTORY.createEntityManager();
+		String query = "SELECT COUNT(ticket) FROM Ticket ticket WHERE TICKETdistributor = :DistributorId AND TICKETevent = :EventId";
+		TypedQuery<Long> tq = em.createQuery(query, Long.class);
+		tq.setParameter("DistributorId", Id);
+		tq.setParameter("EventId", eventId);
+		Long result = null;
+		try {
+			result = tq.getSingleResult();
+		}
+		catch(NoResultException ex) {
+			ex.printStackTrace();
+		}
+		finally {
+			em.close();
+		}
+		return result;
+	}
+	/*public static Long salesByDistributorIdandEventId(int Id,int eventId) {
+
+		EntityManager em=ENTITY_MANAGER_FACTORY.createEntityManager();
+		String query = "SELECT COUNT(ticket) FROM Ticket ticket WHERE TICKETdistributor = :DistributorId AND TICKETevent = :EventId";
+		TypedQuery<Long> tq = em.createQuery(query, Long.class);
+		tq.setParameter("DistributorId", Id);
+		tq.setParameter("EventId", eventId);
+		Long result = null;
+		try {
+			result = tq.getSingleResult();
+		}
+		catch(NoResultException ex) {
+			ex.printStackTrace();
+		}
+		finally {
+			em.close();
+		}
+		return result;
+	}*/
 }
