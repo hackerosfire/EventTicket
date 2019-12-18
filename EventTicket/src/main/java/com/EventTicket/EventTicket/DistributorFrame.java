@@ -6,6 +6,11 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import org.apache.log4j.BasicConfigurator;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.persistence.EntityManager;
@@ -23,7 +28,7 @@ import java.util.List;
 import java.awt.Color;
 
 public class DistributorFrame extends JFrame {
-
+	private static final Logger logger = LogManager.getLogger(OrgFrame.class);
 	private JPanel contentPane;
 	private JTextField nameField;
 	private JTextField lastnameField;
@@ -41,6 +46,7 @@ public class DistributorFrame extends JFrame {
 				try {
 					DistributorFrame frame = new DistributorFrame();
 					frame.setVisible(true);
+					BasicConfigurator.configure();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

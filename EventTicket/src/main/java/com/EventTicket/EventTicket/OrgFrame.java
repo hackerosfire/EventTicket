@@ -42,10 +42,10 @@ public class OrgFrame extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					BasicConfigurator.configure();
+					
 					OrgFrame frame = new OrgFrame();
 					frame.setVisible(true);
-					logger.debug("This is debug message");
+					BasicConfigurator.configure();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

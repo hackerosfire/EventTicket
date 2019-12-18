@@ -2,6 +2,9 @@ package com.EventTicket.EventTicket;
 
 import java.awt.EventQueue;
 
+import org.apache.log4j.BasicConfigurator;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -15,7 +18,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 public class login extends JFrame {
-
+	private static final Logger logger = LogManager.getLogger(login.class);
 	private JPanel contentPane;
 	private JPasswordField passwordField;
 	static int currentId;
@@ -30,6 +33,7 @@ public class login extends JFrame {
 				try {
 					login frame = new login();
 					frame.setVisible(true);
+					BasicConfigurator.configure();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

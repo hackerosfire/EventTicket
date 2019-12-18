@@ -4,7 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+import org.apache.log4j.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -16,7 +16,11 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.border.EmptyBorder;
 
+import org.apache.log4j.BasicConfigurator;
+import org.apache.log4j.LogManager;
+
 public class AdminFrame extends JFrame {
+		private static final Logger logger = LogManager.getLogger(AdminFrame.class);
 		private JPanel contentPane;
 		private JPasswordField passwordField;
 	
@@ -29,6 +33,7 @@ public class AdminFrame extends JFrame {
 					try {
 						AdminFrame frame = new AdminFrame();
 						frame.setVisible(true);
+						BasicConfigurator.configure();
 					} catch (Exception e) {
 						e.printStackTrace();
 					}

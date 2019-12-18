@@ -13,6 +13,11 @@ import javax.swing.JList;
 import javax.swing.AbstractListModel;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultTreeModel;
+
+import org.apache.log4j.BasicConfigurator;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
@@ -23,7 +28,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class frame1 {
-
+	private static final Logger logger = LogManager.getLogger(frame1.class);
 	private JFrame frmEt;
 
 	/**
@@ -35,6 +40,7 @@ public class frame1 {
 				try {
 					frame1 window = new frame1();
 					window.frmEt.setVisible(true);
+					BasicConfigurator.configure();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

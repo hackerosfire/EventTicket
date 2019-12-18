@@ -4,6 +4,9 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.BasicConfigurator;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
@@ -13,12 +16,13 @@ import javax.persistence.TypedQuery;
 import javax.swing.JOptionPane;
 
 public class TestMain {
-
-private static	EntityManagerFactory ENTITY_MANAGER_FACTORY = Persistence.createEntityManagerFactory("EventTicket");
+	
+	private static final Logger logger = LogManager.getLogger(TestMain.class);
+	private static	EntityManagerFactory ENTITY_MANAGER_FACTORY = Persistence.createEntityManagerFactory("EventTicket");
 	public static void main(String[] args) {
 		frame1 mainframe = new frame1();
 		mainframe.frame();
-
+		BasicConfigurator.configure();
 	}
 	public static void addAdmin(String username,String password)
 	{
