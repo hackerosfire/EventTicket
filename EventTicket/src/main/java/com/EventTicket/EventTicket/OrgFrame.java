@@ -3,6 +3,9 @@ package com.EventTicket.EventTicket;
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
+import org.apache.log4j.BasicConfigurator;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -26,7 +29,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class OrgFrame extends JFrame {
-
+	private static final Logger logger = LogManager.getLogger(OrgFrame.class);
 	private JPanel contentPane;
 	private List<Event> events;
 	java.util.Date datee=null;
@@ -39,8 +42,10 @@ public class OrgFrame extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+					BasicConfigurator.configure();
 					OrgFrame frame = new OrgFrame();
 					frame.setVisible(true);
+					logger.debug("This is debug message");
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -156,6 +161,10 @@ public class OrgFrame extends JFrame {
 		JButton btnGetTicketsSold = new JButton("Get Tickets Sold");
 		btnGetTicketsSold.setBounds(250, 59, 110, 23);
 		contentPane.add(btnGetTicketsSold);
+		
+		JLabel label = new JLabel("");
+		label.setBounds(380, 62, 46, 14);
+		contentPane.add(label);
 		addEvent.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				String evName, location;
@@ -231,6 +240,7 @@ public class OrgFrame extends JFrame {
 		});
 		btnGetTicketsSold.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				label.setText(TestMain.getSalesEvent(((Event)comboBox.getSelectedItem()).getId()).toString());
 				
 			}
 		});

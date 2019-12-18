@@ -747,12 +747,11 @@ public static List<Invitation> getAcceptedInvitationsByDistributorId(int distrID
 		}
 		return result;
 	}
-	/*public static Long salesByDistributorIdandEventId(int Id,int eventId) {
+	public static Long getSalesEvent(int eventId) {
 
 		EntityManager em=ENTITY_MANAGER_FACTORY.createEntityManager();
-		String query = "SELECT COUNT(ticket) FROM Ticket ticket WHERE TICKETdistributor = :DistributorId AND TICKETevent = :EventId";
+		String query = "SELECT COUNT(ticket) FROM Ticket ticket WHERE  TICKETevent = :EventId";
 		TypedQuery<Long> tq = em.createQuery(query, Long.class);
-		tq.setParameter("DistributorId", Id);
 		tq.setParameter("EventId", eventId);
 		Long result = null;
 		try {
@@ -765,5 +764,5 @@ public static List<Invitation> getAcceptedInvitationsByDistributorId(int distrID
 			em.close();
 		}
 		return result;
-	}*/
+	}
 }
